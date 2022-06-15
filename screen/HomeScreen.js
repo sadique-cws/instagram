@@ -4,7 +4,8 @@ import HomeScreenHeader from '../components/HomeScreenHeader'
 import Stories from '../components/Stories'
 import POST from '../data/post'
 import Post from '../components/Post'
-
+import BottomIcons from '../components/BottomIcons'
+import Bicons from '../data/Bicons'
 
 const HomeScreen = () => {
   return (
@@ -14,12 +15,11 @@ const HomeScreen = () => {
       <Stories />
         {
           POST.map((value, index) => {
-            console.log(value)
             return <Post key={index} post={value} />
-
           })
         }
       </ScrollView>
+      <BottomIcons Bicons={Bicons}/>
     </View>
   )
 }

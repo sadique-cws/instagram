@@ -15,7 +15,8 @@ const Post = ({post}) => {
 const PostFooter = ({post}) => {
     const [isLike, setIsLike] = useState(false);
     return (
-        <View style={{flexDirection:"row",justifyContent:"space-between",paddingVertical:5}}>
+        <View>
+            <View style={{flexDirection:"row",justifyContent:"space-between",paddingVertical:5}}>
             <View style={{flexDirection:"row"}}>
                 <Icon IconStyle={styles.postFooterIcon} imgUrl={(isLike)?Icons[0].LikedIconURL:Icons[0].IconURL} onPress={() => setIsLike(!isLike)}/>
                 <Icon IconStyle={[styles.postFooterIcon,styles.CommentIconStyle]} imgUrl={Icons[1].IconURL}/>
@@ -25,6 +26,13 @@ const PostFooter = ({post}) => {
             <Icon IconStyle={styles.postFooterIcon} imgUrl={Icons[3].IconURL}/>
             </View>
         </View>   
+        <View>
+            <PostLike post={post}/>
+            <PostCaption post={post}/>
+            {(!!post.comments.length) && <PostComment post={post}/>}
+
+        </View>
+        </View>
     )
 }
 
@@ -42,6 +50,41 @@ const PostBody = ({post}) => {
     )
 }
 
+const PostLike = ({post}) => {
+    return (
+        <View>
+            <Text style={{fontWeight:"bold",color:"white"}}>{post.likes} {(post.likes < 2)? "Like" : "Likes"}</Text>
+        </View>
+    )
+}
+const PostComment = ({post}) => {
+    return (
+        <View>
+            <Text style={{fontWeight:"bold",color:"grey",marginTop:4}}>
+            View 
+            {(post.comments.length < 2)? " ":" all "} 
+            {post.comments.length}{' '}
+            {(post.comments.length > 1)? "Comments":"Comment"}</Text>
+        </View>
+    )
+}
+ 
+
+const PostCaption = ({post}) => {
+    const [isMore, setIsMore ]  = useState(false)
+    return (
+        <View style={{marginVertical:4,flexDirection:"row"}}>
+            <Text style={{color:"white"}}>
+            <Text style={{fontWeight:"bold"}}>{post.user.name}{' '}</Text>
+            {post.caption.slice(0,20)}
+            {(isMore) && post.caption}
+            {(!isMore) && (post.caption.length > 20) && <TouchableOpacity onPress={() => setIsMore(true)}>
+                    <Text style={{color:"white"}}>More</Text>
+                </TouchableOpacity>}
+            </Text>
+        </View>
+    )
+}
 const PostHeader = ({post}) => {
     return (
         <View style={styles.PostHeaderContainer}>

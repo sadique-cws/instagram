@@ -1,7 +1,7 @@
 const peoples = [
     {
         id:1,
-        name:"sadique hussain",
+        name:"shivam anand",
         imgUrl:  require("../a/pro4.jpg"),
     },
     {
@@ -23,7 +23,8 @@ const peoples = [
         id:5,
         name:"alok kumar",
         imgUrl:  require("../a/pro4.jpg"),
-    }
+    },
+   
 ]
 
 export default peoples;

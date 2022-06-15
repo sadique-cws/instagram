@@ -12,7 +12,7 @@ const Stories = () => {
                 <View  key={index} style={styles.peopleContainer}>
                <View style={styles.peoples}>
                     <Image source={value.imgUrl} style={styles.peoplesImage}/>
-                </View>
+                </View> 
                 <Text style={styles.storyText}>{(value.name.length >= 9)? value.name.slice(0,9)+"...": value.name}</Text>
                 </View>
                 
