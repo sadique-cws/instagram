@@ -1,7 +1,7 @@
 import peoples from "./peoples"
 const POST = [
     {
-        imageURl :"",
+        imageURl :"https://picsum.photos/200/200?random=2",
         user: peoples[0],
         likes: 5600,
         caption: "after long time mai bhout din baad ye photo dala hu nahi to mar jata so please like to banta hai please please ",
@@ -17,7 +17,7 @@ const POST = [
         ]
     },
     {
-        imageURl :"",
+        imageURl :"https://picsum.photos/200/200?random=2232",
         user: peoples[1],
         likes: 1300,
         caption: "after long time",
@@ -29,7 +29,7 @@ const POST = [
         ]
     },
     {
-        imageURl :"",
+        imageURl :"https://picsum.photos/200/200?random=223456",
         user: peoples[2],
         likes: 120,
         caption: "feeling happy with friends sab party mang rahe hai aditiya se",

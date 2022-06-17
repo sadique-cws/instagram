@@ -4,14 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 const image = require("../a/logo.png")
-const HomeScreenHeader = () => {
+const HomeScreenHeader = ({navigation}) => {
   return (
     <SafeAreaView style={styles.header}>
         <Image source={image} style={styles.logo}/>
 
 
       <View style={styles.iconsWrapper}>
-          <TouchableOpacity style={styles.icon}>
+          <TouchableOpacity style={styles.icon} onPress={() => navigation.push("newPost")}>
                 <Image style={styles.iconImage} source={{uri:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAhUlEQVRIie2U0Q2AIAxEr8Y1dB4mYXAY5PwRYxowUhLB6PuEcr1rE4CfGkg6kpF2Akl31hTVIABYGn1GEVlLCUiSVuXc+8kqdpeqBpaEYyUYssF8dVmatz4XEcnVAb0TaGfJ+ZVjzfuX3HcHmprZJx5PEAEsLT/qrnGgE3hdYBD3De+/yAbUF3eW9krN8gAAAABJRU5ErkJggg=="}}/>
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon}>

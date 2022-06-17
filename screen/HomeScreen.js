@@ -7,10 +7,10 @@ import Post from '../components/Post'
 import BottomIcons from '../components/BottomIcons'
 import Bicons from '../data/Bicons'
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <HomeScreenHeader />
+      <HomeScreenHeader navigation={navigation} />
       <ScrollView>
       <Stories />
         {
@@ -28,6 +28,7 @@ export default HomeScreen
 
 const styles = StyleSheet.create({
   container:{
-    flex:1
+    flex:1,
+    backgroundColor:"black",
   }
 })

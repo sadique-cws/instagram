@@ -45,7 +45,7 @@ const Icon = ({IconStyle,imgUrl,onPress}) => (
 const PostBody = ({post}) => {
     return (
         <View>
-            <Image style={{width:"100%",height:350}} source={{uri:"https://via.placeholder.com/150"}}/>
+            <Image style={{width:"100%",height:350}} source={{uri:post.imageURl}}/>
         </View>
     )
 }
