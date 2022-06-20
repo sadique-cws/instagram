@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     },
     logo:{
        width:110,
+       marginTop:5,
        resizeMode:"contain"
     },
     icon:{
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     iconsWrapper:{
         display:"flex",
         flexDirection:"row",
-        marginTop:5,
+        marginTop:15,
     },
     iconImage:{
       width:30,

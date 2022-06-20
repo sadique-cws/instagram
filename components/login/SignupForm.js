@@ -4,10 +4,11 @@ import * as Yup from 'yup'
 import { Formik } from 'formik'
 
 
-const LoginForm = ({navigation}) => {
+const SignupForm = ({navigation}) => {
 
     const LoginFormSchema = Yup.object().shape({
         email: Yup.string().email().required("an email is required"),
+        name:Yup.string().required("Name is Required"),
         password:Yup.string().required().min(6, "your password must be >= 6 length")
     })
 
@@ -16,13 +17,25 @@ const LoginForm = ({navigation}) => {
         <Formik initialValues={{
             email:"",
             password:"",
-        }} onSubmit={(values) => navigation.push("home")}
+            name:"",
+        }} onSubmit={(values) => console.log(values)}
         validationSchema={LoginFormSchema}
         validateOnMount={true}
         >
             {
                 ({handleChange,handleBlur,values,handleSubmit, isValid}) => (
        <>
+        <View style={styles.formInput}>
+            <TextInput 
+            style={{paddingHorizontal:10}}
+            placeholderTextColor="#202020" 
+            placeholder='Full Name'
+            onChangeText={handleChange('name')}
+            onBlur={handleBlur('name')}
+            value={values.name}
+            />
+
+        </View>
         <View style={styles.formInput}>
             <TextInput 
             style={{paddingHorizontal:10}}
@@ -52,41 +65,32 @@ const LoginForm = ({navigation}) => {
             </Pressable> 
             
 
-        <View style={{display:"flex",flexDirection:"row",justifyContent:"center",marginTop:10}}>
-        <Text style={{color:"grey",fontWeight:"600"}}>Forget your login details? </Text>
-        <Text style={{color:"#a6a6a6"}}>Get Help Logging in</Text>
-
- 
-       
-        </View>
-      
+        
         </>
          )}
         </Formik> 
+
         <View style={{
         position:"absolute",
-        bottom:-200,
+        bottom:-190,
         width:"100%",
         alignItems:"center",
         justifyContent:"center"
 
         }} >
-       <TouchableOpacity onPress={() => navigation.push('signup')} >
-                <Text style={{color:"#a6a6a6"}}>Not have an Account? SignUp</Text>
+       <TouchableOpacity onPress={() => navigation.push('login')} >
+                <Text style={{color:"#a6a6a6"}}>Already have an Account? Login Here</Text>
         </TouchableOpacity>
        </View>
-         </View>
-  
+    </View>
   )
 }
 
-export default LoginForm
+export default SignupForm
 
 const styles = StyleSheet.create({
     FormContainer:{
         padding:10,
-        
-
     },  
     formInput:{
         width:"100%",

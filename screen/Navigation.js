@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import HomeScreen from './HomeScreen'
 import NewPostScreen from './NewPostScreen'
 import Login from './LoginScreen'
+import SignupScreen from './signUpScreen'
 
 const Stack = createStackNavigator()
 
@@ -23,6 +24,9 @@ const Navigation = () => {
             <Stack.Screen name="login" options={{
                 headerShown:false,
             }} component={Login}/>
+            <Stack.Screen name="signup" options={{
+                headerShown:false,
+            }} component={SignupScreen}/>
         </Stack.Navigator>
     </NavigationContainer>
   )
