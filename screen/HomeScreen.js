@@ -1,20 +1,28 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import HomeScreenHeader from '../components/HomeScreenHeader'
 import Stories from '../components/Stories'
 import POST from '../data/post'
 import Post from '../components/Post'
 import BottomIcons from '../components/BottomIcons'
 import Bicons from '../data/Bicons'
-
+import firestore from '@react-native-firebase/firestore'
 const HomeScreen = ({navigation}) => {
+  const [posts, setPost] = useState([]);
+
+  useEffect(() => {
+    firestore().collectionGroup("posts").onSnapshot(snapshot => {
+      setPost(snapshot.docs.map(document => document.data()))
+    })
+  },[]) 
+  
   return (
     <View style={styles.container}>
       <HomeScreenHeader navigation={navigation} />
       <ScrollView>
       <Stories />
         {
-          POST.map((value, index) => {
+          posts.map((value, index) => {
             return <Post key={index} post={value} />
           })
         }

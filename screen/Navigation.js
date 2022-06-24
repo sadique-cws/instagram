@@ -11,26 +11,41 @@ const Stack = createStackNavigator()
 
 
 
-const Navigation = () => {
+const WithAuthNavigation = () => {
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName='login'>
+        <Stack.Navigator initialRouteName='home'>
             <Stack.Screen name="home" options={{
                 headerShown:false,
             }} component={HomeScreen}/>
+
             <Stack.Screen name="newPost" options={{
                 headerShown:false,
             }} component={NewPostScreen}/>
-            <Stack.Screen name="login" options={{
-                headerShown:false,
-            }} component={Login}/>
-            <Stack.Screen name="signup" options={{
-                headerShown:false,
-            }} component={SignupScreen}/>
         </Stack.Navigator>
     </NavigationContainer>
   )
 }
 
-export default Navigation
 
+
+const WithoutAuthNavigation = () => {
+    return (
+      <NavigationContainer>
+          <Stack.Navigator initialRouteName='login'>
+              <Stack.Screen name="login" options={{
+                  headerShown:false,
+              }} component={Login}/>
+              
+              <Stack.Screen name="signup" options={{
+                  headerShown:false,
+              }} component={SignupScreen}/>
+          </Stack.Navigator>
+      </NavigationContainer>
+    )
+  }
+
+export {
+    WithAuthNavigation,
+    WithoutAuthNavigation,
+}

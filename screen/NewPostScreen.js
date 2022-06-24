@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View,SafeAreaView, TouchableOpacity,Image, TextInput, Button } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 import * as ImagePicker from 'react-native-image-picker';
+import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
 
 
 const BACK_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAb0lEQVRIie2UMQ6AIAxFf42Dx/JE6lFw8jxezOdAYoiDgMHJvqkDeZ+GUslx7gAGWOn5rlYuKUjaakKK5cBK5ADGL+WTy5vJc1NEUredGunqIiRdzB6SC6n+aH1pgJkBLIoPP0jaX971mdpl5/yAEzRhu131PEHxAAAAAElFTkSuQmCC"
@@ -19,13 +21,49 @@ const NewPostScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.mainContainer}>
         <NewPostHeader navigation={navigation}/>
-        <NewPostByFormik/>
+        <NewPostByFormik navigation={navigation}/>
     </SafeAreaView>
   )
 }
 
-const NewPostByFormik  = () => {
+const NewPostByFormik  = ({navigation}) => {
     const [placeholder,setPlaceholder] = useState(PLACEHOLDER_IMG)
+    const [currentLogginedUser,setCurrentLogginedUser] = useState(null)
+
+    const getCurrentUserName = () => {
+      const user = auth().currentUser;
+      const data = firestore().collection("users").where("owner_uid", "==" , user.uid).limit(1).onSnapshot(
+        snapshot => snapshot.docs.map(doc => {
+          setCurrentLogginedUser({
+            fullname : doc.data().fullname,
+            dp : doc.data().profile_picture
+          })
+        })
+      )
+      return data;
+    }
+    useEffect(() => {
+      getCurrentUserName()
+    },[])
+
+    const addPostToFirebase = async (imgUrl, caption) => {
+      let dataforPost = {
+        imageURl:imgUrl,
+        user: currentLogginedUser.fullname,
+        profile_picture:currentLogginedUser.dp,
+        owner_uid: auth().currentUser.uid,
+        caption:caption,
+        // createdAt: firestore().FieldValue.serverTimestamp,
+        likes:0,
+        likes_by_users : [],
+        comments:[]
+      }
+
+      console.log(dataforPost)
+
+      const user = await firestore().collection("users").doc(auth().currentUser.email).collection("post").add(dataforPost).then(() => navigation.goBack())
+    return user;
+    }
 
     const initialValue = {
       postCaption:"",
@@ -33,9 +71,10 @@ const NewPostByFormik  = () => {
 
     }
 
-    const handleSubmitForm = (values) => {
-        console.log(values)
-    }
+    // const handleSubmitForm = (values) => {
+    //   addPostToFirebase(values.postImageURL,values.postCaption)
+    //   console.log(values)
+    // }
     const handleImagePicker = () => {
       let options = {
           title:"select image",
@@ -56,7 +95,7 @@ const NewPostByFormik  = () => {
       <Formik 
       initialValues={initialValue} 
       validationSchema={NewPostSchema}  
-      onSubmit={(values) => handleSubmitForm(values)}
+      onSubmit={(values) => addPostToFirebase(values.postImageURL,values.postCaption)}
       
       
       >

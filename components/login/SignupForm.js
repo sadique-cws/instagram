@@ -1,9 +1,9 @@
-import { Button, Pressable, StyleSheet, Text, TextInput, View,TouchableOpacity } from 'react-native'
+import { Button, Pressable, StyleSheet, Text,Alert, TextInput, View,TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
-
-
+import auth from '@react-native-firebase/auth';
+import firestore from "@react-native-firebase/firestore";
 const SignupForm = ({navigation}) => {
 
     const LoginFormSchema = Yup.object().shape({
@@ -12,13 +12,33 @@ const SignupForm = ({navigation}) => {
         password:Yup.string().required().min(6, "your password must be >= 6 length")
     })
 
+    const onSignup = async (email,password,name) => {
+        try{
+            const authUser = await auth()
+            .createUserWithEmailAndPassword(email, password);
+            console.log("WOw.. Account created successfully")
+            // more details storing
+
+            firestore().collection("users").add({
+                owner_uid: authUser.user.uid,
+                fullname: name,
+                profile_picture: "https://picsum.photos/30/30?random=3"
+            })
+            navigation.push("login")
+        }
+        catch(error){
+            Alert.alert('Something went Wrong',error.message);
+        }
+        
+    }
+
   return (
     <View style={styles.FormContainer}>
         <Formik initialValues={{
             email:"",
             password:"",
             name:"",
-        }} onSubmit={(values) => console.log(values)}
+        }} onSubmit={(values) => onSignup(values.email,values.password,values.name)}
         validationSchema={LoginFormSchema}
         validateOnMount={true}
         >

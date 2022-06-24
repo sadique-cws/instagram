@@ -1,7 +1,8 @@
-import { Button, Pressable, StyleSheet, Text, TextInput, View,TouchableOpacity } from 'react-native'
+import { Button, Pressable, StyleSheet, Text, TextInput, View,TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
+import auth from '@react-native-firebase/auth';
 
 
 const LoginForm = ({navigation}) => {
@@ -11,15 +12,28 @@ const LoginForm = ({navigation}) => {
         password:Yup.string().required().min(6, "your password must be >= 6 length")
     })
 
+    const onLogin = (email,password) => {
+        auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          console.log('User account created & signed in!');
+        })
+        .catch(error => {
+             Alert.alert('Something went Wrong',`${error}`,[
+                {text:"ok",onPress:console.log("ok")},
+                {text:"Signup",onPress:navigation.push("signup")},
+             ]);
+        });
+    }
+
   return (
     <View style={styles.FormContainer}>
         <Formik initialValues={{
             email:"",
             password:"",
-        }} onSubmit={(values) => navigation.push("home")}
-        validationSchema={LoginFormSchema}
-        validateOnMount={true}
-        >
+        }} onSubmit={(values) => onLogin(values.email,values.password)}
+           validationSchema={LoginFormSchema}
+           validateOnMount={true}>
             {
                 ({handleChange,handleBlur,values,handleSubmit, isValid}) => (
        <>

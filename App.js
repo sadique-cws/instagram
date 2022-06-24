@@ -1,8 +1,6 @@
-import { View, Text,SafeAreaView,StyleSheet } from 'react-native'
+import { View,StyleSheet } from 'react-native'
 import React from 'react'
-import HomeScreen from './screen/HomeScreen'
-import NewPostScreen from './screen/NewPostScreen'
-import Navigation from './screen/Navigation'
+import AuthNavigation from './screen/AuthNavigation'
 
 const styles = StyleSheet.create({
   mainContainer:{
@@ -13,7 +11,7 @@ const styles = StyleSheet.create({
 const App = () => {
   return (
     <View style={styles.mainContainer}>
-      <Navigation/>
+      <AuthNavigation/>
     </View>
   )
 }

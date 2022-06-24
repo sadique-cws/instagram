@@ -1,14 +1,25 @@
 import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import auth from '@react-native-firebase/auth'
 
 const image = require("../a/logo.png")
+
+const onSignout = async () => {
+  try{
+      await auth().signOut()
+      console.log("signout successfully")
+    }
+  catch(error){
+    console.log(error)
+  }
+} 
 const HomeScreenHeader = ({navigation}) => {
   return (
     <SafeAreaView style={styles.header}>
+      <TouchableOpacity  onPress={onSignout}>
         <Image source={image} style={styles.logo}/>
-
+      </TouchableOpacity>
 
       <View style={styles.iconsWrapper}>
           <TouchableOpacity style={styles.icon} onPress={() => navigation.push("newPost")}>
