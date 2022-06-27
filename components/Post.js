@@ -1,7 +1,11 @@
 import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Icons from '../data/Icons';
 import {useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import firebase from "@react-native-firebase/app"
+
 const Post = ({post}) => {
   return (
     <View style={styles.post}>
@@ -13,12 +17,39 @@ const Post = ({post}) => {
 }
 
 const PostFooter = ({post}) => {
-    const [isLike, setIsLike] = useState(false);
+
+    const currentLikeStatus = !post.likes_by_users.includes(
+        auth().currentUser.email
+    )
+
+    const handleLike = post =>{
+      
+
+        firestore()
+        .collection('users')
+        .doc(post.owner_email)
+        .collection("post")
+        .doc(post.id)
+        .update({
+            likes_by_users: currentLikeStatus ? 
+            firestore.FieldValue.arrayUnion(
+                auth().currentUser.email)
+                : 
+                firestore.FieldValue.arrayRemove(
+                    auth().currentUser.email)   
+        }).catch(error => {
+            console.log(error)
+        })
+
+        
+    }
+
+
     return (
         <View>
             <View style={{flexDirection:"row",justifyContent:"space-between",paddingVertical:5}}>
             <View style={{flexDirection:"row"}}>
-                <Icon IconStyle={styles.postFooterIcon} imgUrl={(isLike)?Icons[0].LikedIconURL:Icons[0].IconURL} onPress={() => setIsLike(!isLike)}/>
+                <Icon IconStyle={styles.postFooterIcon} imgUrl={(!currentLikeStatus)?Icons[0].LikedIconURL:Icons[0].IconURL} onPress={() => handleLike(post)}/>
                 <Icon IconStyle={[styles.postFooterIcon,styles.CommentIconStyle]} imgUrl={Icons[1].IconURL}/>
                 <Icon IconStyle={styles.postFooterIcon} imgUrl={Icons[2].IconURL}/>
             </View>
@@ -53,7 +84,7 @@ const PostBody = ({post}) => {
 const PostLike = ({post}) => {
     return (
         <View>
-            <Text style={{fontWeight:"bold",color:"white"}}>{post.likes} {(post.likes < 2)? "Like" : "Likes"}</Text>
+            <Text style={{fontWeight:"bold",color:"white"}}>{post.likes_by_users.length} {(post.likes_by_users.length < 2)? "Like" : "Likes"}</Text>
         </View>
     )
 }

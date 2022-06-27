@@ -11,8 +11,8 @@ const HomeScreen = ({navigation}) => {
   const [posts, setPost] = useState([]);
 
   useEffect(() => {
-    firestore().collectionGroup("posts").onSnapshot(snapshot => {
-      setPost(snapshot.docs.map(document => document.data()))
+    firestore().collectionGroup("post").onSnapshot(snapshot => {
+      setPost(snapshot.docs.map(document => ({id:document.id, ...document.data()})))
     })
   },[]) 
   

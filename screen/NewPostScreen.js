@@ -5,6 +5,8 @@ import { Formik } from 'formik'
 import * as ImagePicker from 'react-native-image-picker';
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
+import firebase from "@react-native-firebase/app"
+
 
 
 const BACK_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAb0lEQVRIie2UMQ6AIAxFf42Dx/JE6lFw8jxezOdAYoiDgMHJvqkDeZ+GUslx7gAGWOn5rlYuKUjaakKK5cBK5ADGL+WTy5vJc1NEUredGunqIiRdzB6SC6n+aH1pgJkBLIoPP0jaX971mdpl5/yAEzRhu131PEHxAAAAAElFTkSuQmCC"
@@ -12,7 +14,7 @@ const DONE_ICON  = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAA
 const PLACEHOLDER_IMG = "https://via.placeholder.com/100.jpg"
 
 const NewPostSchema = Yup.object().shape({
-  postImageURL: Yup.string().url("post image is required").required("post image is required"),
+  postImageURL: Yup.string().required("post image is required"),
   postCaption: Yup.string().max(200,"caption limit is completed")
 })
 
@@ -53,10 +55,10 @@ const NewPostByFormik  = ({navigation}) => {
         profile_picture:currentLogginedUser.dp,
         owner_uid: auth().currentUser.uid,
         caption:caption,
-        // createdAt: firestore().FieldValue.serverTimestamp,
-        likes:0,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         likes_by_users : [],
-        comments:[]
+        comments:[],
+        owner_email : auth().currentUser.email
       }
 
       console.log(dataforPost)
@@ -123,10 +125,11 @@ const NewPostByFormik  = ({navigation}) => {
                   onChange={e => setPlaceholder(e.nativeEvent.text)}
                   onBlur={handleBlur('postImageURL')} 
                   onChangeText={handleChange('postImageURL')}
-                  value={values.postImageURL}
+                  value={placeholder}
                   placeholder='write image url here' 
                   style={{height:100,marginTop:10,color:"white"}}  
                   placeholderTextColor="#fff" 
+                
                 />
                   {
                     errors.postImageURL && (
