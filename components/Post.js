@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,Image,TouchableOpacity, TextInput } from 'react-native'
 import React, { useEffect } from 'react'
 import Icons from '../data/Icons';
 import {useState} from 'react';
@@ -7,6 +7,7 @@ import auth from '@react-native-firebase/auth';
 import firebase from "@react-native-firebase/app"
 
 const Post = ({post}) => {
+   
   return (
     <View style={styles.post}>
         <PostHeader post={post}/>
@@ -23,8 +24,6 @@ const PostFooter = ({post}) => {
     )
 
     const handleLike = post =>{
-      
-
         firestore()
         .collection('users')
         .doc(post.owner_email)
@@ -88,8 +87,10 @@ const PostLike = ({post}) => {
         </View>
     )
 }
+
 const PostComment = ({post}) => {
     return (
+        <>
         <View>
             <Text style={{fontWeight:"bold",color:"grey",marginTop:4}}>
             View 
@@ -97,6 +98,7 @@ const PostComment = ({post}) => {
             {post.comments.length}{' '}
             {(post.comments.length > 1)? "Comments":"Comment"}</Text>
         </View>
+        </>
     )
 }
  
@@ -117,11 +119,12 @@ const PostCaption = ({post}) => {
     )
 }
 const PostHeader = ({post}) => {
+
     return (
         <View style={styles.PostHeaderContainer}>
             <View style={{display:"flex",flexDirection:"row",alignItems:"center"}}>
-                <Image source={post.user.imgUrl} style={styles.postProfileImage}/>
-                <Text style={{color:"white"}}>{post.user.name}</Text>
+                <Image source={{uri:post.profile_picture}} style={styles.postProfileImage}/>
+                <Text style={{color:"white"}}>{post.user}</Text>
             </View>
             <TouchableOpacity>
                     <Image  style={styles.postActions} source={{uri:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAS0lEQVRIie3SwQnAIAxAUel0le6/gHaP50Xo0VIUD827hyTwUwqz4MKNirxiQfUob+eO6Zd8hdy/KDh33/NHkelQZLpfZDoUmS7TAMKohPdLbejeAAAAAElFTkSuQmCC"}}/>
@@ -130,6 +133,10 @@ const PostHeader = ({post}) => {
     )
 }
 export default Post
+
+
+
+
 
 const styles = StyleSheet.create({
     PostHeaderText:{

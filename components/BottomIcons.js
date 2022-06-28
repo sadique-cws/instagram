@@ -4,12 +4,18 @@ import { TouchableOpacity,Image,StyleSheet,View } from "react-native";
 
 
 
-const BottomIcons = ({Bicons}) => {
+const BottomIcons = ({Bicons,navigation}) => {
 
     const [active,setActive] = useState("home");
 
+    const handleClick = (name) => {
+        setActive(name); 
+        navigation.push(name)
+    }
+    
     const Icon = ({icon}) => (
-        <TouchableOpacity onPress={() => setActive(icon.name)}>
+
+        <TouchableOpacity onPress={() => handleClick(icon.name)}>
             <Image 
             source={{uri: active===icon.name ? icon.activeURL: icon.inActiveURL}}  
             style={

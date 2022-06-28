@@ -6,6 +6,8 @@ import HomeScreen from './HomeScreen'
 import NewPostScreen from './NewPostScreen'
 import Login from './LoginScreen'
 import SignupScreen from './signUpScreen'
+import ProfileScreen from './ProfileScreen'
+import CommentScreen from './CommentScreen'
 
 const Stack = createStackNavigator()
 
@@ -22,6 +24,15 @@ const WithAuthNavigation = () => {
             <Stack.Screen name="newPost" options={{
                 headerShown:false,
             }} component={NewPostScreen}/>
+
+            <Stack.Screen name="profile" options={{
+                headerShown:false,
+            }} component={ProfileScreen}/>
+
+            <Stack.Screen name="comments" options={{
+                headerShown:false,
+            }} component={CommentScreen}/>
+            
         </Stack.Navigator>
     </NavigationContainer>
   )

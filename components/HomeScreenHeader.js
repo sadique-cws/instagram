@@ -5,19 +5,10 @@ import auth from '@react-native-firebase/auth'
 
 const image = require("../a/logo.png")
 
-const onSignout = async () => {
-  try{
-      await auth().signOut()
-      console.log("signout successfully")
-    }
-  catch(error){
-    console.log(error)
-  }
-} 
 const HomeScreenHeader = ({navigation}) => {
   return (
     <SafeAreaView style={styles.header}>
-      <TouchableOpacity  onPress={onSignout}>
+      <TouchableOpacity>
         <Image source={image} style={styles.logo}/>
       </TouchableOpacity>
 

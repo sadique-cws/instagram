@@ -7,13 +7,17 @@ import Post from '../components/Post'
 import BottomIcons from '../components/BottomIcons'
 import Bicons from '../data/Bicons'
 import firestore from '@react-native-firebase/firestore'
+
+
 const HomeScreen = ({navigation}) => {
   const [posts, setPost] = useState([]);
 
   useEffect(() => {
-    firestore().collectionGroup("post").onSnapshot(snapshot => {
-      setPost(snapshot.docs.map(document => ({id:document.id, ...document.data()})))
+    const unsubscribe = firestore().collectionGroup("post").onSnapshot(snapshot => {
+      setPost(snapshot?.docs?.map(document => ({id:document.id, ...document.data()})))
     })
+
+    return unsubscribe;
   },[]) 
   
   return (
@@ -27,7 +31,7 @@ const HomeScreen = ({navigation}) => {
           })
         }
       </ScrollView>
-      <BottomIcons Bicons={Bicons}/>
+      <BottomIcons Bicons={Bicons} navigation={navigation}/>
     </View>
   )
 }
