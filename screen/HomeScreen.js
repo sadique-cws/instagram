@@ -27,7 +27,7 @@ const HomeScreen = ({navigation}) => {
       <Stories />
         {
           posts.map((value, index) => {
-            return <Post key={index} post={value} />
+            return <Post key={index} post={value} navigation={navigation} />
           })
         }
       </ScrollView>

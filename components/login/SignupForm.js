@@ -19,7 +19,7 @@ const SignupForm = ({navigation}) => {
             console.log("WOw.. Account created successfully")
             // more details storing
 
-            firestore().collection("users").add({
+            await firestore().collection("users").add({
                 owner_uid: authUser.user.uid,
                 fullname: name,
                 profile_picture: "https://picsum.photos/30/30?random=3"

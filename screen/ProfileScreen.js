@@ -1,6 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import ProfileHeader from '../components/profile/profileHeader'
 import auth from '@react-native-firebase/auth'
 const ProfileScreen = ({navigation}) => {
 

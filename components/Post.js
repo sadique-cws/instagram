@@ -6,18 +6,18 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import firebase from "@react-native-firebase/app"
 
-const Post = ({post}) => {
+const Post = ({post,navigation}) => {
    
   return (
     <View style={styles.post}>
         <PostHeader post={post}/>
         <PostBody post={post}/>
-        <PostFooter post={post}/>
+        <PostFooter post={post} navigation={navigation}/>
     </View>
   )
 }
 
-const PostFooter = ({post}) => {
+const PostFooter = ({post,navigation}) => {
 
     const currentLikeStatus = !post.likes_by_users.includes(
         auth().currentUser.email
@@ -49,7 +49,7 @@ const PostFooter = ({post}) => {
             <View style={{flexDirection:"row",justifyContent:"space-between",paddingVertical:5}}>
             <View style={{flexDirection:"row"}}>
                 <Icon IconStyle={styles.postFooterIcon} imgUrl={(!currentLikeStatus)?Icons[0].LikedIconURL:Icons[0].IconURL} onPress={() => handleLike(post)}/>
-                <Icon IconStyle={[styles.postFooterIcon,styles.CommentIconStyle]} imgUrl={Icons[1].IconURL}/>
+                <Icon IconStyle={[styles.postFooterIcon,styles.CommentIconStyle]} onPress={() => navigation.navigate("comments",{postData:post})} imgUrl={Icons[1].IconURL}/>
                 <Icon IconStyle={styles.postFooterIcon} imgUrl={Icons[2].IconURL}/>
             </View>
             <View>
@@ -66,7 +66,7 @@ const PostFooter = ({post}) => {
     )
 }
 
-const Icon = ({IconStyle,imgUrl,onPress}) => (
+export const Icon = ({IconStyle,imgUrl,onPress}) => (
         <TouchableOpacity onPress={() => onPress()}>
             <Image source={{uri:imgUrl}} style={IconStyle}/>
         </TouchableOpacity>
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
     },  
     post:{
         width:"100%",
+        marginBottom:55,
     },
     postFooterIcon:{
         width:30,

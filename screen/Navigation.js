@@ -32,7 +32,7 @@ const WithAuthNavigation = () => {
             <Stack.Screen name="comments" options={{
                 headerShown:false,
             }} component={CommentScreen}/>
-            
+
         </Stack.Navigator>
     </NavigationContainer>
   )
