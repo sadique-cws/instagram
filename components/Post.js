@@ -10,6 +10,7 @@ const Post = ({post,navigation}) => {
    
   return (
     <View style={styles.post}>
+        
         <PostHeader post={post}/>
         <PostBody post={post}/>
         <PostFooter post={post} navigation={navigation}/>
